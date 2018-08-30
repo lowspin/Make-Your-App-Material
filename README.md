@@ -18,7 +18,7 @@ Through this project, you will:
 # Project Details
 You will improve an app for this project:
 
-XYZ Reader: A mock RSS feed reader featuring banner photos and headlines. [Original code](https://github.com/udacity/xyz-reader-starter-code).
+XYZ Reader: A mock RSS feed reader featuring banner photos and headlines ([Original code](https://github.com/udacity/xyz-reader-starter-code)).
 
 The app is currently functional, and work in most cases for most users.
 
@@ -29,4 +29,5 @@ You should have the skills you need to complete this app after completing:
 - [Developing Android Apps](https://classroom.udacity.com/courses/ud853)
 - [Advanced Android App Development](https://classroom.udacity.com/courses/ud855)
 - [Material Design for Android Developers](https://classroom.udacity.com/courses/ud862)
+
 You can also refer to the [Material Design specification](http://www.google.com/design/spec/material-design/introduction.html).
