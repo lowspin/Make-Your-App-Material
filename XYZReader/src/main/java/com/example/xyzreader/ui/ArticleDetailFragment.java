@@ -7,6 +7,7 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
@@ -25,7 +26,9 @@ import android.support.v7.graphics.Palette;
 import android.text.Html;
 import android.text.format.DateUtils;
 import android.text.method.LinkMovementMethod;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -227,8 +230,15 @@ public class ArticleDetailFragment extends Fragment implements
             //titleView.setText(mCursor.getString(ArticleLoader.Query.TITLE));
             String article_title = mCursor.getString(ArticleLoader.Query.TITLE);
             mCollapsingToolbar.setTitle(article_title);
-            Log.d(TAG,article_title+" ("+article_title.length()+")");
-            if (article_title.length()>21) { // fit longer title into a single line
+
+            // check available screen width in dp.
+            DisplayMetrics displayMetrics = this.getActivity().getResources().getDisplayMetrics();
+            float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+            Log.d(TAG,"width_dp = " + dpWidth);
+
+            // reduce font size to fit longer title into a single line
+            int textsizethrehold = (dpWidth<500)? 21 : 32;
+            if (article_title.length()>textsizethrehold) {
                 mCollapsingToolbar.setExpandedTitleTextAppearance(R.style.exp_toolbar_title_small);
             } else {
                 mCollapsingToolbar.setExpandedTitleTextAppearance(R.style.exp_toolbar_title);
