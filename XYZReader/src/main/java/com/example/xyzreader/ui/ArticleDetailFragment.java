@@ -151,7 +151,7 @@ public class ArticleDetailFragment extends Fragment implements
 
         mCollapsingToolbar = (CollapsingToolbarLayout) mRootView.findViewById(R.id.collapsingtoolbar);
         mPhotoView = (ImageView) mRootView.findViewById(R.id.photo);
-        mPhotoContainerView = mRootView.findViewById(R.id.photo_container);
+//        mPhotoContainerView = mRootView.findViewById(R.id.photo_container);
 
         mStatusBarColorDrawable = new ColorDrawable(0);
 
