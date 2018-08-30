@@ -40,6 +40,7 @@
             android:clipToPadding="false"
             android:scrollbarStyle="outsideOverlay"
             android:paddingTop="?attr/actionBarSize"
+            android:background="@color/theme_primary_light"
             android:paddingLeft="@dimen/list_side_margin"
             android:paddingRight="@dimen/list_side_margin"
             android:paddingBottom="28dp" />

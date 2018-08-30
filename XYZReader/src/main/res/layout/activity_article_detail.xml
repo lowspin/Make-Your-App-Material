@@ -20,7 +20,7 @@
             android:layout_height="?actionBarSize"
             android:background="?selectableItemBackgroundBorderless"
             android:contentDescription="@string/up"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="@dimen/margin_small"
             android:src="@drawable/ic_arrow_back" />
     </FrameLayout>
 </FrameLayout>

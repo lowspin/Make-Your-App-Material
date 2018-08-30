@@ -17,6 +17,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.ShareCompat;
 import android.support.v4.widget.NestedScrollView;
@@ -58,6 +59,8 @@ public class ArticleDetailFragment extends Fragment implements
 //    private DrawInsetsFrameLayout mDrawInsetsFrameLayout;
     private CoordinatorLayout mDrawInsetsFrameLayout;
     private ColorDrawable mStatusBarColorDrawable;
+
+    private CollapsingToolbarLayout mCollapsingToolbar;
 
     private int mTopInset;
     private View mPhotoContainerView;
@@ -143,6 +146,7 @@ public class ArticleDetailFragment extends Fragment implements
 //            }
 //        });
 
+        mCollapsingToolbar = (CollapsingToolbarLayout) mRootView.findViewById(R.id.collapsingtoolbar);
         mPhotoView = (ImageView) mRootView.findViewById(R.id.photo);
         mPhotoContainerView = mRootView.findViewById(R.id.photo_container);
 
@@ -208,19 +212,28 @@ public class ArticleDetailFragment extends Fragment implements
             return;
         }
 
-        TextView titleView = (TextView) mRootView.findViewById(R.id.article_title);
+//        TextView titleView = (TextView) mRootView.findViewById(R.id.article_title);
         TextView bylineView = (TextView) mRootView.findViewById(R.id.article_byline);
         bylineView.setMovementMethod(new LinkMovementMethod());
         TextView bodyView = (TextView) mRootView.findViewById(R.id.article_body);
 
 
-        bodyView.setTypeface(Typeface.createFromAsset(getResources().getAssets(), "Rosario-Regular.ttf"));
+        //bodyView.setTypeface(Typeface.createFromAsset(getResources().getAssets(), "Rosario-Regular.ttf"));
 
         if (mCursor != null) {
             mRootView.setAlpha(0);
             mRootView.setVisibility(View.VISIBLE);
             mRootView.animate().alpha(1);
-            titleView.setText(mCursor.getString(ArticleLoader.Query.TITLE));
+            //titleView.setText(mCursor.getString(ArticleLoader.Query.TITLE));
+            String article_title = mCursor.getString(ArticleLoader.Query.TITLE);
+            mCollapsingToolbar.setTitle(article_title);
+            Log.d(TAG,article_title+" ("+article_title.length()+")");
+            if (article_title.length()>21) { // fit longer title into a single line
+                mCollapsingToolbar.setExpandedTitleTextAppearance(R.style.exp_toolbar_title_small);
+            } else {
+                mCollapsingToolbar.setExpandedTitleTextAppearance(R.style.exp_toolbar_title);
+            }
+
             Date publishedDate = parsePublishedDate();
             if (!publishedDate.before(START_OF_EPOCH.getTime())) {
                 bylineView.setText(Html.fromHtml(
@@ -263,7 +276,8 @@ public class ArticleDetailFragment extends Fragment implements
                     });
         } else {
             mRootView.setVisibility(View.GONE);
-            titleView.setText("N/A");
+//            titleView.setText("N/A");
+            mCollapsingToolbar.setTitle("N/A");
             bylineView.setText("N/A" );
             bodyView.setText("N/A");
         }
