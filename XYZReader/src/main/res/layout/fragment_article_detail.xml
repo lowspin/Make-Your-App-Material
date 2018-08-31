@@ -48,9 +48,6 @@
 
     </android.support.design.widget.AppBarLayout>
         
-
-
-    <!--com.example.xyzreader.ui.ObservableScrollView-->
     <ScrollView
         android:id="@+id/scrollview"
         android:nestedScrollingEnabled="true"

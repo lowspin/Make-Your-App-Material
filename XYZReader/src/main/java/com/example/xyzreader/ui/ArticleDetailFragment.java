@@ -15,6 +15,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.ShareCompat;
@@ -31,8 +33,9 @@ import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.example.xyzreader.R;
 import com.example.xyzreader.data.ArticleLoader;
 
@@ -233,27 +236,23 @@ public class ArticleDetailFragment extends Fragment implements
             }
             String maintext = mCursor.getString(ArticleLoader.Query.BODY);
             bodyView.setText(maintext.replaceAll("\r\n\r\n", "\n\n").replaceAll("\r\n", " "));
-            ImageLoaderHelper.getInstance(getActivity()).getImageLoader()
-                    .get(mCursor.getString(ArticleLoader.Query.PHOTO_URL), new ImageLoader.ImageListener() {
-                        @Override
-                        public void onResponse(ImageLoader.ImageContainer imageContainer, boolean b) {
-                            Bitmap bitmap = imageContainer.getBitmap();
-                            if (bitmap != null) {
-//                                Palette p = Palette.generate(bitmap, 12);
-                                Palette p = new Palette.Builder(bitmap).generate();
-                                mMutedColor = p.getDarkMutedColor(0xFF333333);
-                                mPhotoView.setImageBitmap(imageContainer.getBitmap());
-                                mRootView.findViewById(R.id.meta_bar)
-                                        .setBackgroundColor(mMutedColor);
-                                updateStatusBar();
-                            }
-                        }
 
-                        @Override
-                        public void onErrorResponse(VolleyError volleyError) {
 
+            Glide.with(getActivity().getApplication().getApplicationContext())
+                    .asBitmap()
+                    .load(mCursor.getString(ArticleLoader.Query.THUMB_URL))
+                    .into(new SimpleTarget<Bitmap>(600, 300) {
+                        @Override
+                        public void onResourceReady(@NonNull Bitmap bitmap, @Nullable Transition<? super Bitmap> transition) {
+                            Palette p = new Palette.Builder(bitmap).generate();
+                            mMutedColor = p.getDarkMutedColor(0xFF333333);
+                            mPhotoView.setImageBitmap(bitmap);
+                            mRootView.findViewById(R.id.meta_bar)
+                                    .setBackgroundColor(mMutedColor);
+                            updateStatusBar();
                         }
                     });
+
         } else {
             mRootView.setVisibility(View.GONE);
             mCollapsingToolbar.setTitle("N/A");
